@@ -36,6 +36,7 @@ def create_cfg(leader_set, irs):
 		#if it is an unconditional goto statement
 		else:
 			graph.append((leader_set.index(x)-1, leader_set.index(x)))
+	#dotty representaton
 	fout = open("cfg.dot",'w+')
 	fout.write("digraph {\n")
 	for each in graph:
@@ -46,22 +47,25 @@ def create_cfg(leader_set, irs):
 
 def find_dom(graph, leader_set, irs):
 	#wrapper function
-	dom_flags = []
 	initial = graph[0][0]
 	#Dom(n) = {n} union with intersection over Dom(p) for all p in pred(n)
+	#makes recursive calls to compute the dominators of a given node
 	def dom(n):
 		if n!=initial:
 			dom_set = {n}
 			pred = [x[0] for x in list(filter(lambda x: x[1]==n,graph))]
 			dom_pred = dom(pred[0])
+			#intersection of the dominators of its predecessors
 			map(lambda x:dom_pred.intersection(dom(x)), pred)
 			dom_set = dom_set.union(dom_pred)
 			return dom_set
 		else:
 			return {initial}
 	dom_tree=[]
+	#finding immediate dom
 	for x in range(1,len(leader_set)):
 		dom_tree.append((max(dom(x)-{x}), x))
+	#dotty representation
 	fout = open("domtree.dot",'w+')
 	fout.write("digraph {\n")
 	for each in dom_tree:
@@ -76,19 +80,6 @@ def main():
 	file.close()
 	graph = create_cfg(leader_set, irs)
 	dom_tree = find_dom(graph, leader_set, irs)
-	#print(find_dom(graph, leader_set, irs))
 
 if __name__ == '__main__':
 	main()
-
-'''
-/ dominator of the start node is the start itself
- Dom(n0) = {n0}
- // for all other nodes, set all nodes as the dominators
- for each n in N - {n0}
-     Dom(n) = N;
- // iteratively eliminate nodes that are not dominators
- while changes in any Dom(n)
-     for each n in N - {n0}:
-         Dom(n) = {n} union with intersection over Dom(p) for all p in pred(n)
-'''
