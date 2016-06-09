@@ -6,6 +6,7 @@ def find_leaders(str):
 	goto_statements = list(filter(lambda x: "goto" in x ,irs))
 	#all tuples that immediately follow a goto statement is a leader
 	followers = [irs[irs.index(x)+1] for x in goto_statements]
+	#all labels that are after a goto statement
 	blocks = [re.match(".*goto (.*)", x).group(1)+":" for x in goto_statements if re.match(".*goto (.*)", x).group(1)+":" not in followers]
 	leaders = [irs[0]] + followers + blocks
 	leaders.sort(key = lambda x: irs.index(x))
@@ -35,9 +36,7 @@ def create_cfg(leader_set, irs):
 		#if it is an unconditional goto statement
 		else:
 			graph.append((leader_set.index(x)-1, leader_set.index(x)))
-	#print(graph)
-	#print(leader_set)
-	fout = open("out.dot",'w+')
+	fout = open("cfg.dot",'w+')
 	fout.write("digraph {\n")
 	for each in graph:
 		fout.write("{0} -> {1};\n".format(each[0],each[1]))
@@ -46,14 +45,38 @@ def create_cfg(leader_set, irs):
 	return graph
 
 def find_dom(graph, leader_set, irs):
-	pass
+	#wrapper function
+	dom_flags = []
+	initial = graph[0][0]
+	#Dom(n) = {n} union with intersection over Dom(p) for all p in pred(n)
+	def dom(n):
+		if n!=initial:
+			dom_set = {n}
+			pred = [x[0] for x in list(filter(lambda x: x[1]==n,graph))]
+			dom_pred = dom(pred[0])
+			map(lambda x:dom_pred.intersection(dom(x)), pred)
+			dom_set = dom_set.union(dom_pred)
+			return dom_set
+		else:
+			return {initial}
+	dom_tree=[]
+	for x in range(1,len(leader_set)):
+		dom_tree.append((max(dom(x)-{x}), x))
+	fout = open("domtree.dot",'w+')
+	fout.write("digraph {\n")
+	for each in dom_tree:
+		fout.write("{0} -> {1};\n".format(each[0],each[1]))
+	fout.write("}")
+	fout.close()
+	return dom_tree
 
 def main():
 	file = open("input.txt")
 	leader_set, irs = find_leaders(file.read())
 	file.close()
 	graph = create_cfg(leader_set, irs)
-	find_dom(graph, leader_set, irs)
+	dom_tree = find_dom(graph, leader_set, irs)
+	#print(find_dom(graph, leader_set, irs))
 
 if __name__ == '__main__':
 	main()

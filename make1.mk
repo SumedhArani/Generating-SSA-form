@@ -3,8 +3,10 @@ rir.out: a.out
 	rm *.o
 	./rir.out > input.txt
 	python3 dominator.py
-	dot -Tps -O out.dot
-	evince out.dot.ps
+	dot -Tps -O cfg.dot
+	dot -Tps -O domtree.dot
+	evince cfg.dot.ps
+	evince domtree.dot.ps
 a.out : maingenir.o genir.o
 	gcc -std=c11 maingenir.o genir.o 
 maingenir.o : maingenir.c genir.h
