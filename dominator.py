@@ -45,8 +45,9 @@ def create_cfg(leader_set, irs):
 	fout.close()
 	return graph
 
-def find_dom(graph, leader_set, irs):
+def find_dom(graph, size):
 	#wrapper function
+	#size is the number of leaders
 	initial = graph[0][0]
 	#Dom(n) = {n} union with intersection over Dom(p) for all p in pred(n)
 	#makes recursive calls to compute the dominators of a given node
@@ -56,15 +57,19 @@ def find_dom(graph, leader_set, irs):
 			pred = [x[0] for x in list(filter(lambda x: x[1]==n,graph))]
 			dom_pred = dom(pred[0])
 			#intersection of the dominators of its predecessors
-			map(lambda x:dom_pred.intersection(dom(x)), pred)
-			dom_set = dom_set.union(dom_pred)
+			map(lambda x:dom_pred.update(dom_pred.intersection(dom(x))), pred)
+			dom_set.update(dom_pred)
 			return dom_set
 		else:
 			return {initial}
 	dom_tree=[]
+	dom_set=[]
 	#finding immediate dom
-	for x in range(1,len(leader_set)):
-		dom_tree.append((max(dom(x)-{x}), x))
+	for x in range(1, size):
+		#(idom(n),n)
+		dom_tempset = dom(x)
+		dom_tree.append((max(dom_tempset-{x}), x))
+		dom_set.append(dom_tempset)
 	#dotty representation
 	fout = open("domtree.dot",'w+')
 	fout.write("digraph {\n")
@@ -72,14 +77,60 @@ def find_dom(graph, leader_set, irs):
 		fout.write("{0} -> {1};\n".format(each[0],each[1]))
 	fout.write("}")
 	fout.close()
-	return dom_tree
+	return (dom_tree, dom_set)
+
+def find_domfrontier(dom_tree, graph, dom_set):
+	#wrapper function
+	#dom_tree = [(idom(n), n)] #data-structure
+	def df(n):
+		def df_local(n):
+			#df_local -> set of those succesors of n whose immediate dominator is not n
+			succesors = [x[1] for x in filter(lambda x: x[0]==n,graph)]
+			return (set(filter(lambda x: dom_tree[x-1][0]!=n,succesors)))
+
+		def df_up(c):
+			up_set = set()
+			for w in df(c):
+				if w not in dom_set[n-1]:
+					up_set.update({w}) 
+			return up_set
+		dom_tset = set()
+		temp = [x[1] for x in filter(lambda x: x[0]==n,dom_tree)]
+		
+		'''
+		Neither of the below code worked
+		Could you help me understand why?
+		No matter how I try the dom_tset which is a temprory varible doesn't get affected
+		map(lambda y: dom_tset.update({y}), temp)
+		map(lambda y: dom_tset.update(df_up(y)), temp)
+		I eventually had to use a for loop to do the same which worked smoothly
+		'''
+		for e in temp:
+			dom_tset.update(df_up(e))
+
+		return df_local(n).union(dom_tset)
+
+	'''
+	Dubious code
+	def df_aliter(x):
+		#dom_set begins with dominators for the first node and following and hence index begins with 0
+		#y is the set of edges over which x dominates
+		y = dom_set[x-1]
+		#z is the set of nodes whose pred are dominated by x
+		z = [x[1] for x in filter(lambda x: x[0] in y ,graph)]
+		#these node should'nt be strictly dominated by x
+		return set(filter(lambda x:x not in y-{x}, z))
+	
+	print(df_aliter(3))
+	'''
 
 def main():
 	file = open("input.txt")
 	leader_set, irs = find_leaders(file.read())
 	file.close()
 	graph = create_cfg(leader_set, irs)
-	dom_tree = find_dom(graph, leader_set, irs)
+	dom_tree, dom_set = find_dom(graph, len(leader_set))
+	find_domfrontier(dom_tree, graph, dom_set)
 
 if __name__ == '__main__':
 	main()
