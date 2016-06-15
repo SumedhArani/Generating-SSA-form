@@ -1,0 +1,22 @@
+i(1) = 1
+j(1) = 1
+k(1) = 1
+a2:
+if k(2)<100 goto a3
+goto a4
+a3:
+if j(2)<20 goto a5
+goto a6
+a5:
+j(3) = i
+k(4) = k(4)+1
+goto a7
+a6:
+j =k(2)
+k(3) = k(3)+2
+goto a7
+a7:
+nothing
+goto a2
+a4:
+return j

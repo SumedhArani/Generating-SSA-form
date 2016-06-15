@@ -1,178 +1,22 @@
-	t26 = 2133116974 * 1430411181
-loopbegin0:
-	if t31 < t36 goto loopbody1
-	goto loopend2
-loopbody1:
-	if t18 == t43 goto ifbegin3
-	goto elsebegin5
-ifbegin3:
-	t2 = t44 / t43
-	t35 = -t1
-	t8 = t49 - t7
-	t43 = t1 - t9
-	t20 = 1040555952 * t27
-	t7 = 2047389486 * t1
-	t7 = 1120252510 * t17
-	t9 = t34 - t18
-	t7 = 1637839078 - t47
-	t37 = t10
-	t28 = -t42
-	t27 = 1340024865 * t39
-	t12 = t20
-	goto ifend4
-elsebegin5:
-	t37 = t32 * 362591517
-	t25 = -204010202
-	t30 = 96658872 + t48
-	t4 = t16 / t46
-	t16 = t43 + t49
-	t38 = 382848785 / t6
-	t38 = -t28
-	t19 = 1613011196
-	t38 = -341210734
-	t31 = t32 - t28
-	t21 = 21000206 * t29
-ifend4:
-loopbegin6:
-	if t23 == t1 goto loopbody7
-	goto loopend8
-loopbody7:
-	t34 = t4
-	t6 = 1404142270 * t37
-	t8 = -17401234
-	t29 = 714782230
-	t30 = t37 / t15
-	t7 = t38 * t45
-	t6 = t48 * t22
-	goto loopbegin6
-loopend8:
-	t11 = 351380799
-	t46 = t31
-	t12 = t24 - t23
-	t18 = 694630684 + t32
-	t38 = 1219043599 * t29
-	t37 = t38
-	t12 = -876655354
-	t35 = t34
-loopbegin9:
-	if t49 >= t28 goto loopbody10
-	goto loopend11
-loopbody10:
-	t1 = t47
-	t40 = t17 - t0
-	t39 = t44 / t1
-	t11 = t44 * 1312758254
-	t44 = t19 - t47
-	t36 = t49
-	t1 = t14
-	t1 = t44
-	goto loopbegin9
-loopend11:
-loopbegin12:
-	if t21 <= 1334212601 goto loopbody13
-	goto loopend14
-loopbody13:
-	t33 = t35 * 1671747305
-	t48 = 377369132 * t47
-	t10 = t14 * t32
-	t46 = t45 / t29
-	goto loopbegin12
-loopend14:
-	goto loopbegin0
-loopend2:
-	t3 = t48 - t4
-	t36 = -684944268
-loopbegin15:
-	if t6 != t24 goto loopbody16
-	goto loopend17
-loopbody16:
-	if t25 <= 272173718 goto ifbegin18
-	goto elsebegin20
-ifbegin18:
-	t18 = -526658523
-	t5 = 632509818 * 616155394
-	t24 = t12 / t21
-	t12 = t19 - 112690144
-	t12 = 671296792 + 1343458525
-	t26 = 2120047534
-	t13 = 1889818943 - 5090642
-	t5 = -1409478776
-	t8 = 1907032782 - 1723192798
-	goto ifend19
-elsebegin20:
-	t34 = t11
-	t12 = t29 * t6
-	t40 = 1572490072 / t18
-	t10 = t44
-	t13 = t26
-	t10 = t36
-	t20 = t34 - 1007563678
-	t15 = t20 - 1865396238
-	t5 = t44 - t41
-ifend19:
-	t4 = 725645311
-	t38 = -t27
-	if 2001897776 < t1 goto ifbegin21
-	goto ifend22
-ifbegin21:
-	t17 = 1889310308 * t48
-	t23 = -t5
-	t31 = t27 - 52112540
-	t46 = -t47
-ifend22:
-	t36 = t4 + t0
-	t20 = t42
-	t31 = t46 - 1649294087
-	if t2 > 1555592303 goto ifbegin24
-	goto elsebegin26
-ifbegin24:
-	t7 = t48
-	t45 = t6 - t44
-	t38 = -t34
-	t14 = -866856909
-	t31 = t20 + 894443102
-	t47 = t17
-	t32 = t29 - 1410315664
-	t32 = 1431407115 / 1686372151
-	t40 = 310704937 + 1810328655
-	goto ifend25
-elsebegin26:
-	t2 = t34
-	t36 = t34 - t38
-	t1 = 1215107504
-	t2 = t24
-	t14 = -803693021
-	t22 = -1431359371
-	t23 = 1413759830 / 160093342
-	t22 = t36 - t37
-ifend25:
-	t35 = 554911711
-	t31 = t25
-	t40 = 2132662784 - t1
-	if t46 > t38 goto ifbegin27
-	goto elsebegin29
-ifbegin27:
-	t18 = t41 / t41
-	t44 = 1568834437 + 1632866383
-	t29 = t45 * t9
-	t29 = t13 + t15
-	t22 = t20 * t3
-	t0 = t19 / t2
-	t40 = t26
-	goto ifend28
-elsebegin29:
-	t32 = t47 / t48
-	t24 = t7 - t48
-	t27 = t6 * 371891067
-	t36 = t6 + 1335133443
-	t12 = t26
-	t39 = 742938088 / t15
-	t45 = 1115982309
-	t7 = t9 * t10
-	t18 = 547966893 * t12
-	t30 = 1908252554 / t45
-ifend28:
-	t12 = t17
-	goto loopbegin15
-loopend17:
-	t18 = t6 - 1215137768
+i = 1
+j = 1
+k = 1
+a2:
+if k<100 goto a3
+goto a4
+a3:
+if j<20 goto a5
+goto a6
+a5:
+j = i
+k = k+1
+goto a7
+a6:
+j =k
+k = k+2
+goto a7
+a7:
+nothing
+goto a2
+a4:
+return j
