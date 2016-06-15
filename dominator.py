@@ -67,10 +67,8 @@ def create_domtree(graph, size):
 			dom_set.update(dom_inter)
 			dom_temp[n].update(dom_set)
 			return dom_set
-	
 	dom_tree=[]
 	dom_set=[]
-
 	#finding immediate dom
 	for x in range(1, size):
 		#(idom(n),n)
@@ -236,11 +234,11 @@ def rename(irs, leader_set, graph, dom_tree, phi_func):
 					each_line = each_line.replace(each_use, each_use+'('+str(var_dict[each_use][1][-1])+')')
 				irs[block_line_nums[0]+count] = each_line
 
-		for succ in [x[1] for x in filter(lambda x: x[0]==block_num,graph)]:
+		for succ in [x[1] for x in list(filter(lambda x: x[0]==block_num,graph))]:
 			pred = [x[0] for x in list(filter(lambda x: x[1]==succ,graph))]
 			# n is the jth predecessor of the successor
 			j = pred.index(block_num)
-			for func in phi_func_temp[block_num]:
+			for func in phi_func_temp[succ]:
 				a = func[j]
 				if re.match('(.*)\((.*)',a):
 					a = re.match('(.*)\((.*)',a).group(1)
@@ -251,6 +249,9 @@ def rename(irs, leader_set, graph, dom_tree, phi_func):
 		child = [x[1] for x in list(filter(lambda x: x[0]==block_num,dom_tree))]
 		list(map(lambda each_child: rename_block(blocks[each_child]), child))
 
+		for each_def in phi_func[block_num]:
+			var_dict[each_def[0]][1].pop()
+
 		for each_line in block_lines:
 			if re.match('(.*)\((.*)=.* ', each_line):
 				def_var_temp = re.match('(.*)\((.*)=.* ', each_line).group(1).strip()
@@ -260,8 +261,10 @@ def rename(irs, leader_set, graph, dom_tree, phi_func):
 				def_var_temp = re.match('(.*)=.* ', each_line).group(1).strip()
 				if 'if' not in def_var_temp:
 					var_dict[def_var_temp][1].pop()
-
 	rename_block(blocks[0])
+
+	print(phi_func_temp) #block num: phi variables
+	print(phi_func_mod) #block num : arrays last value is the defn
 
 def main():
 	file = open("input.txt")
@@ -272,7 +275,6 @@ def main():
 	df_list = find_domfrontier(dom_tree, graph, dom_set)
 	varlist_origin, var_tuple = find_var_origin(irs, leader_set)
 	def_sites, var_phi, phi_func = insert_phi_func(graph, irs, df_list, varlist_origin, var_tuple)
-	
 	rename(irs, leader_set, graph, dom_tree, phi_func)
 	block_lines = irs[:]
 	fout = open('output.txt','w')
